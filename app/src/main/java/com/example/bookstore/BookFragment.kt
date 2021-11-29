@@ -40,12 +40,11 @@ class BookFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBooksearchBinding.inflate(inflater, container, false).apply {
-            viewModel = this@BookFragment.viewModel
-            lifecycleOwner = viewLifecycleOwner
 
-            viewModel.getVolumesResponseLiveData()!!
-                .observe(viewLifecycleOwner,
+        binding = FragmentBooksearchBinding.inflate(inflater, container, false).apply {
+
+            viewModel?.getVolumesResponseLiveData()
+                ?.observe(viewLifecycleOwner,
                     { volumesResponse ->
                         if (volumesResponse != null) {
                             adapter.setResults(volumesResponse.items!!)

@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 
-interface BookSearchService {
+interface BookService {
     @GET("/books/v1/volumes")
     fun searchVolumes(
         @Query("q") query: String?,

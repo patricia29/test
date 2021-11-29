@@ -1,10 +1,13 @@
 package com.example.bookstore
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.bookstore.repository.BookRepository
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class MainActivity(private val repository: BookRepository) : AppCompatActivity() {
 
     /**
      * OnCreate

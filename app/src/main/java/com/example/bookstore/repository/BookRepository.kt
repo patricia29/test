@@ -3,7 +3,7 @@ package com.example.bookstore.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.bookstore.VolumesResponse
-import com.example.bookstore.service.BookSearchService
+import com.example.bookstore.service.BookService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -12,7 +12,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 /**
  * Repository
  */
@@ -20,22 +19,23 @@ class BookRepository {
 
     companion object {
         private const val BOOK_SEARCH_SERVICE_BASE_URL =
-            "https://www.googleapis.com/books/v1/volumes?q=ios&maxResults=20&startIndex=0"
+            "https://www.googleapis.com/"
     }
 
-    private val bookSearchService: BookSearchService
-    private val volumesResponseLiveData: MutableLiveData<VolumesResponse?> = MutableLiveData()
+    private val bookSearchService: BookService
+    private val volumesResponseLiveData: MutableLiveData<VolumesResponse> = MutableLiveData()
 
     init {
         val interceptor = HttpLoggingInterceptor()
-        interceptor.level
+        interceptor.level= HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-        bookSearchService = Retrofit.Builder()
+        bookSearchService = retrofit2.Retrofit.Builder()
             .baseUrl(BOOK_SEARCH_SERVICE_BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(BookSearchService::class.java)
+            .create(BookService::class.java)
+        //Todo       popular a viewModel com resultado do retrofit
     }
 
     fun searchVolumes(keyword: String?, author: String?, apiKey: String?) {
@@ -56,7 +56,7 @@ class BookRepository {
             })
     }
 
-    fun getVolumesResponseLiveData(): LiveData<VolumesResponse?>? {
+    fun getVolumesResponseLiveData(): LiveData<VolumesResponse> {
         return volumesResponseLiveData
     }
 }
